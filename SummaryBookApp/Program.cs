@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -23,24 +24,38 @@ namespace SummaryBookApp
             //}
             // bookRepository.SelectTop10();
             // bookRepository.SelectYear();
-            XmlSerializer xsSubmit = new XmlSerializer(typeof(List<Book>));
 
-            using (var sww = new StringWriter())
-            {
-                using (XmlWriter writer = XmlWriter.Create(sww))
-                {
-                    xsSubmit.Serialize(writer, books);
-                    string xml = sww.ToString(); // Your XML
+            Book book = new Book();
+            book.BookId = 12;
+            book.Title = "Macmillan";
+            book.Year = 2015;
+            book.Price = 100;
+            book.PublisherId = 15;
 
-                    string filePath = @"C:\Users\Maria\Desktop\Tema.txt"; 
-              
+            var json = new JavaScriptSerializer().Serialize(book);    
+            string filePath = @"C:\Users\Maria\Desktop\Tema.txt";
+            File.WriteAllText(filePath, json);
 
-                    File.WriteAllText(filePath, xml);
-                }
+            // Console.WriteLine(json);
 
-                //      File.WriteAllText();
-            }
-            
+            //XmlSerializer xsSubmit = new XmlSerializer(typeof(List<Book>));
+
+            //using (var sww = new StringWriter())
+            //{
+            //    using (XmlWriter writer = XmlWriter.Create(sww))
+            //    {
+            //        xsSubmit.Serialize(writer, books);
+            //        string xml = sww.ToString(); // Your XML
+
+            //        string filePath = @"C:\Users\Maria\Desktop\Tema.txt"; 
+
+
+            //        File.WriteAllText(filePath, xml);
+            //    }
+
+            //    //      File.WriteAllText();
+            //}
+
             Console.ReadLine();
         }
     }

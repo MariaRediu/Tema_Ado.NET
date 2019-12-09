@@ -19,7 +19,7 @@ namespace DataAccess
             {
 
                 SqlCommand commandRows = new SqlCommand(query, connection);
-                connection.Open();
+               
                 int count = (int)commandRows.ExecuteScalar();
                 Console.WriteLine($"Number of rows from the Publisher table is {count}");
 
@@ -35,7 +35,7 @@ namespace DataAccess
             using (var connection = ConnectionManager.GetSqlConnection())
             {
                 SqlCommand commandSelect = new SqlCommand(query, connection);
-                connection.Open();
+               
                 using (SqlDataReader reader = commandSelect.ExecuteReader())
                 {
                     var moreResults = true;
@@ -43,8 +43,8 @@ namespace DataAccess
                     {
                         var currentRow = reader;
                         Publisher pub = new Publisher();
-                        pub.PublisherId = (int)currentRow["[PublisherId]"];
-                        pub.Name = (string)currentRow["[Name]"];
+                        pub.PublisherId =currentRow["PublisherId"] as int? ?? default(int); ;
+                        pub.Name = (string)currentRow["Name"];
 
                         Console.WriteLine($"{pub.PublisherId}--{pub.Name}");
 
